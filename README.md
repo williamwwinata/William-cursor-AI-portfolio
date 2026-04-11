@@ -45,7 +45,7 @@ A portfolio project built as part of the 100hires AI-Native application process.
 ### 5. Creating the GitHub Repository and Cloning Locally
 - I created a new public repository on GitHub using my existing GitHub account
 - I cloned the repository to my local machine to start working with it inside Cursor
-- I connected the repository to Cursor so that all Git operations such as commits and pushes could be run directly from within the editor
+- I set up the Cursor and GitHub connection so that all Git operations such as commits and pushes could be run directly from within the editor
 
 ### 6. Writing the README and Pushing to GitHub
 - With Claude Code running in my Cursor terminal, I used it to write this README documenting my full setup process. I specifically told Claude to write it in first person so it accurately reflects my own experience
