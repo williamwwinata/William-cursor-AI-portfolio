@@ -16,12 +16,14 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 ## Phases
 
 ### Phase 1: Expert Discovery
+
 - **Status**: Complete
 - **Completed**: 2026-04-14
 - **Output**: `resources/sources.md` — 15+ candidate experts with quality gate scoring
 - **Decision log**: See "Decisions and Trade-offs" section below
 
 ### Phase 2: User Review Checkpoint
+
 - **Status**: Complete
 - **Completed**: 2026-04-14
 - **Feedback received**: User selected 10 of 17 candidates and added 2 new experts not in the original draft
@@ -29,21 +31,76 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 - **Removed from draft**: Amy Porterfield, Todd Brown, Jon Schumacher, Sunny Lenarduzzi, Stu McLaren, Tarzan Kay, Navid Moazzez, Alyssa J. Dillon, Lewis Howes
 
 ### Phase 3: Content Collection
-- **Status**: Not started
+
+- **Status**: Pre-flight analysis complete — awaiting user command to begin
 - **Collection log**:
 
 | Expert | Platform | Items Planned | Items Collected | Status |
 |--------|----------|--------------|----------------|--------|
-| — | — | — | — | — |
+| Russell Brunson | Blog (clickfunnels.com) | 8 | 0 | Pending |
+| Jason Fladlien | YouTube | 9 | 0 | Pending |
+| Alex Hormozi | YouTube | 1 | 0 | Pending |
+| Mariah Coz | Blog (mariahcoz.com) | 7 | 0 | Pending |
+| Melissa Kwan | Blog (ewebinar.com) | 17 | 0 | Pending |
+| Pat Flynn | YouTube | 1 | 0 | Pending |
+| Dama Jue | Podcast page (heartsoulhustle.com) | 1 | 0 | Flagged — see below |
+| Omar Zenhom | Blog (webinarninja.com) | 18 | 0 | Pending |
+| Alex Cattoni | YouTube + Blog (copyposse.com) | 3 | 0 | Pending |
+| Jon Penberthy | YouTube | 4 | 0 | Pending |
+
+**Totals**: 16 YouTube videos · 52 blog posts · 3 podcast-embed pages flagged
+
+---
+
+#### Scrapability Assessment (blogs)
+
+| Domain | Scrapable? | Method | Notes |
+|--------|-----------|--------|-------|
+| clickfunnels.com/blog | Yes | requests + BS4 | Standard HTML blog. Two posts (`podcast-696`, `podcast-670`) are podcast episode pages — flagged for audio handling |
+| mariahcoz.com/blog | Yes | requests + BS4 | Standard WordPress/personal blog |
+| ewebinar.com/blog | Yes | requests + BS4 | Company blog, standard HTML |
+| webinarninja.com/blog | Yes | requests + BS4 | Company blog, standard HTML |
+| copyposse.com/blog | Yes | requests + BS4 | Brand blog, standard HTML |
+| heartsoulhustle.com/blogs | TBD | requests + BS4 | Podcast episode page — check for written transcript first; may be audio-only embed |
+
+---
+
+#### Podcast Audio — Flagged Pages (3 total)
+
+These links point to podcast episode pages that may contain embedded audio with no written transcript:
+
+1. `clickfunnels.com/blog/podcast-696-peter-pru` (Russell Brunson)
+2. `clickfunnels.com/blog/podcast-670-tim-shields` (Russell Brunson)
+3. `heartsoulhustle.com/blogs/episode-077-...` (Dama Jue)
+
+**Handling flow:**
+1. Fetch page with requests + BS4 → check for written transcript or full show notes text
+2. If text exists → scrape as normal blog post
+3. If audio-only embed → use an audio transcription API (see options below) or prompt user
+
+**Audio transcription API options** (pending user decision):
+
+| Service | Price | Notes |
+|---------|-------|-------|
+| AssemblyAI | ~$0.37/hr | REST API, high accuracy, most widely used, easy integration |
+| Deepgram | ~$0.0043/min (~$0.26/hr) | REST API, fastest turnaround, good accuracy |
+| OpenAI Whisper API | $0.006/min (~$0.36/hr) | Reliable, familiar Anthropic-ecosystem adjacent |
+
+**User decision needed**: Which audio transcription API to use if podcast pages are audio-only? Or should those 3 pages be skipped/manual?
+
+
 
 ### Phase 4: Repository Organization
+
 - **Status**: Not started
 - **Note**: Folder structure is created incrementally as content is added during Phase 3
 
 ### Phase 5: README Update
+
 - **Status**: Not started
 
 ### Phase 6: Final Cleanup
+
 - **Status**: Not started
 
 ---
@@ -76,6 +133,7 @@ William-cursor-AI-portfolio/
 ```
 
 **Naming conventions:**
+
 - All slugs: lowercase, hyphen-separated, no spaces or special characters
 - All content filenames prefixed with `YYYY-MM-DD`
 - Example: `resources/youtube-transcripts/amy-porterfield/2024-03-15-webinar-funnel-from-scratch.md`
@@ -84,20 +142,24 @@ William-cursor-AI-portfolio/
 
 ## Technical Stack
 
-| Tool | Purpose |
-|------|---------|
-| Supadata API (primary) | Fetch YouTube transcripts via REST API; key stored in `.env`, never committed |
-| `youtube-transcript-api` (Python fallback) | Fallback if Supadata fails; no API key required |
-| YouTube Data API v3 | Enrich transcript files with metadata (title, views, publish date) |
-| Apify LinkedIn Posts Scraper | Collect LinkedIn posts within ToS constraints |
-| `requests` + `BeautifulSoup4` (Python) | Fetch and parse podcast transcripts, blog posts, LinkedIn Articles |
-| Python `venv` | Isolated environment, excluded from git |
+
+| Tool                                       | Purpose                                                                       |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| Supadata API (primary)                     | Fetch YouTube transcripts via REST API; key stored in `.env`, never committed |
+| `youtube-transcript-api` (Python fallback) | Fallback if Supadata fails; no API key required                               |
+| YouTube Data API v3                        | Enrich transcript files with metadata (title, views, publish date)            |
+| Apify LinkedIn Posts Scraper               | Collect LinkedIn posts within ToS constraints                                 |
+| `requests` + `BeautifulSoup4` (Python)     | Fetch and parse podcast transcripts, blog posts, LinkedIn Articles            |
+| Python `venv`                              | Isolated environment, excluded from git                                       |
+
 
 **YouTube transcript flow:**
+
 1. Call Supadata API with video URL → success → write transcript file
 2. If Supadata fails → prompt user for next step (manual copy-paste or fallback library)
 
 **Setup:**
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate        # Windows
@@ -147,19 +209,21 @@ Custom LinkedIn scrapers are out of scope — too brittle and ToS risk.
 
 One expert or one platform per commit. No giant dumps.
 
-| Commit | Contents |
-|--------|---------|
-| 1 | `plan.md` + `resources/sources.md` draft (15+ candidates) |
-| 2 | Updated `sources.md` after user review (approved final list) |
-| 3+ | Per-expert content batches (e.g., "Add YouTube transcripts: Amy Porterfield") |
-| N-1 | README rewrite |
-| N | Final cleanup and plan.md status updates |
+
+| Commit | Contents                                                                      |
+| ------ | ----------------------------------------------------------------------------- |
+| 1      | `plan.md` + `resources/sources.md` draft (15+ candidates)                     |
+| 2      | Updated `sources.md` after user review (approved final list)                  |
+| 3+     | Per-expert content batches (e.g., "Add YouTube transcripts: Amy Porterfield") |
+| N-1    | README rewrite                                                                |
+| N      | Final cleanup and plan.md status updates                                      |
+
 
 ---
 
 ## Decisions and Trade-offs
 
-- **15 candidates in initial draft**: Gives enough breadth for user to cull down to a strong final 6-10 without the list feeling constrained
+- **15 candidates in initial draft**: Gives enough breadth for user to cull down to a strong final 10 without the list feeling constrained
 - **Scripts committed to repo**: Demonstrates technical execution to evaluators; makes data pipeline transparent and reproducible
 - **Apify for LinkedIn**: Prioritizes data collection reliability over building a fragile custom scraper; cost is negligible on free tier; approach is documented transparently
 - **Auto-generated YouTube transcripts**: Not corrected for errors; this is noted in frontmatter. The volume and speed trade-off is worth it for a research pass
@@ -172,3 +236,4 @@ One expert or one platform per commit. No giant dumps.
 - Auto-generated YouTube transcripts may contain errors; no manual correction applied
 - Content represents a point-in-time snapshot; all collected dates are recorded in frontmatter
 - Podcast audio without posted transcripts requires either show notes (proxy) or manual transcription of key segments
+
