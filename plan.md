@@ -78,17 +78,56 @@ These links point to podcast episode pages that may contain embedded audio with 
 2. If text exists → scrape as normal blog post
 3. If audio-only embed → use an audio transcription API (see options below) or prompt user
 
-**Audio transcription API options** (pending user decision):
+**Audio transcription API**: Deepgram (confirmed by user)
+- REST API, ~$0.0043/min (~$0.26/hr), fastest turnaround
+- Key stored in `.env` as `DEEPGRAM_API_KEY`, never committed
 
-| Service | Price | Notes |
-|---------|-------|-------|
-| AssemblyAI | ~$0.37/hr | REST API, high accuracy, most widely used, easy integration |
-| Deepgram | ~$0.0043/min (~$0.26/hr) | REST API, fastest turnaround, good accuracy |
-| OpenAI Whisper API | $0.006/min (~$0.36/hr) | Reliable, familiar Anthropic-ecosystem adjacent |
+---
 
-**User decision needed**: Which audio transcription API to use if podcast pages are audio-only? Or should those 3 pages be skipped/manual?
+#### Phase 3 Sequence — Planned Order
 
+1. **LinkedIn keyword search** (next up) — scrape public posts matching "webinar funnel from zero" and related queries across LinkedIn broadly, not limited to the 10 experts
+2. **YouTube transcripts** — Supadata API for all 16 videos
+3. **Blog scraping** — requests + BS4 for all 52 blog posts
+4. **Podcast pages** — handle flagged pages after user decides on audio transcription API
 
+---
+
+#### LinkedIn Keyword Search — Plan
+
+**Goal**: Find publicly available LinkedIn posts from practitioners discussing webinar funnels. Not profile-specific — this is a broad keyword sweep to surface posts that may not have been caught in the expert discovery phase.
+
+**Search queries to run** (in priority order):
+1. `"webinar funnel"`
+2. `"webinar funnel from zero"`
+3. `"webinar registration page"`
+4. `"webinar show up rate"`
+5. `"webinar email sequence"`
+6. `"automated webinar funnel"`
+7. `"evergreen webinar"`
+8. `"webinar conversion rate"`
+
+**Tool options:**
+
+| Tool | Type | Cost | Notes |
+|------|------|------|-------|
+| **Apify — LinkedIn Posts Search Scraper** | Cloud actor (REST API) | Free tier ~$5 credits (~200-500 posts) | Already in plan; input: keyword query; output: post text, author, date, likes, URL. Most reliable option. |
+| **Apify — LinkedIn Profile Scraper** | Cloud actor (REST API) | Same free tier | Scrapes posts from specific profiles — useful for the 10 experts' LinkedIn presence |
+| **Proxycurl API** | REST API | $0.01-0.10/request | Clean API, higher cost, better for profile data than post search |
+| **SerpApi (Google dorking)** | REST API | Free tier 100 searches/mo | Queries `site:linkedin.com/posts "webinar funnel"` via Google — gets indexed posts only, misses recent |
+| **PhantomBuster** | Browser automation | Free trial | Requires LinkedIn login; ToS risk higher than Apify |
+
+**Recommendation**: Use **Apify** for both passes:
+- Pass 1: LinkedIn Posts Search Scraper → keyword queries above → broad post discovery
+- Pass 2: LinkedIn Profile Scraper → the 10 experts' profiles → capture any expert LinkedIn posts missed in expert-specific collection
+
+**Setup**: Apify API key confirmed by user → stored in `.env` as `APIFY_API_KEY`, never committed
+
+**Output location**: `resources/LinkedIn-posts/search-results/[YYYY-MM-DD]-[query-slug].md`
+
+**Awaiting user command to begin.**
+
+---
 
 ### Phase 4: Repository Organization
 
@@ -143,14 +182,15 @@ William-cursor-AI-portfolio/
 ## Technical Stack
 
 
-| Tool                                       | Purpose                                                                       |
-| ------------------------------------------ | ----------------------------------------------------------------------------- |
-| Supadata API (primary)                     | Fetch YouTube transcripts via REST API; key stored in `.env`, never committed |
-| `youtube-transcript-api` (Python fallback) | Fallback if Supadata fails; no API key required                               |
-| YouTube Data API v3                        | Enrich transcript files with metadata (title, views, publish date)            |
-| Apify LinkedIn Posts Scraper               | Collect LinkedIn posts within ToS constraints                                 |
-| `requests` + `BeautifulSoup4` (Python)     | Fetch and parse podcast transcripts, blog posts, LinkedIn Articles            |
-| Python `venv`                              | Isolated environment, excluded from git                                       |
+| Tool | Purpose |
+|------|---------|
+| Supadata API (primary) | Fetch YouTube transcripts via REST API; key in `.env` |
+| `youtube-transcript-api` (Python fallback) | Fallback if Supadata fails; no API key required |
+| Apify LinkedIn Posts Search Scraper | Keyword search across LinkedIn posts; key in `.env` |
+| Apify LinkedIn Profile Scraper | Scrape posts from each expert's LinkedIn profile; same key |
+| Deepgram API | Transcribe podcast audio if episode pages are audio-only; key in `.env` |
+| `requests` + `BeautifulSoup4` (Python) | Fetch and parse blog posts, podcast pages |
+| Python `venv` | Isolated environment, excluded from git |
 
 
 **YouTube transcript flow:**
