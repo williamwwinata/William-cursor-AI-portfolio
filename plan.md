@@ -3,7 +3,7 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 1 — Expert Discovery
+**Status**: Phase 3 — Content Collection (awaiting user content links)
 
 ---
 
@@ -22,9 +22,11 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 - **Decision log**: See "Decisions and Trade-offs" section below
 
 ### Phase 2: User Review Checkpoint
-- **Status**: Pending — awaiting user feedback on expert list
-- **Feedback received**: —
-- **Approved experts**: —
+- **Status**: Complete
+- **Completed**: 2026-04-14
+- **Feedback received**: User selected 10 of 17 candidates and added 2 new experts not in the original draft
+- **Approved experts**: Russell Brunson, Jason Fladlien, Alex Hormozi, Mariah Coz, Melissa Kwan, Pat Flynn, Dama Jue, Omar Zenhom, Alex Cattoni, Jon Penberthy
+- **Removed from draft**: Amy Porterfield, Todd Brown, Jon Schumacher, Sunny Lenarduzzi, Stu McLaren, Tarzan Kay, Navid Moazzez, Alyssa J. Dillon, Lewis Howes
 
 ### Phase 3: Content Collection
 - **Status**: Not started
