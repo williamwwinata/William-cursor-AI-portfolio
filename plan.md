@@ -86,17 +86,23 @@ William-cursor-AI-portfolio/
 
 | Tool | Purpose |
 |------|---------|
-| `youtube-transcript-api` (Python) | Fetch YouTube auto-generated transcripts, no API key required |
+| Supadata API (primary) | Fetch YouTube transcripts via REST API; key stored in `.env`, never committed |
+| `youtube-transcript-api` (Python fallback) | Fallback if Supadata fails; no API key required |
 | YouTube Data API v3 | Enrich transcript files with metadata (title, views, publish date) |
 | Apify LinkedIn Posts Scraper | Collect LinkedIn posts within ToS constraints |
 | `requests` + `BeautifulSoup4` (Python) | Fetch and parse podcast transcripts, blog posts, LinkedIn Articles |
 | Python `venv` | Isolated environment, excluded from git |
 
+**YouTube transcript flow:**
+1. Call Supadata API with video URL → success → write transcript file
+2. If Supadata fails → prompt user for next step (manual copy-paste or fallback library)
+
 **Setup:**
 ```bash
 python -m venv .venv
 .venv\Scripts\activate        # Windows
-pip install youtube-transcript-api requests beautifulsoup4 python-dotenv
+pip install requests beautifulsoup4 python-dotenv
+# Copy .env.example to .env and fill in SUPADATA_API_KEY
 ```
 
 ---
