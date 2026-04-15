@@ -3,7 +3,7 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 3 — Content Collection complete (LinkedIn + YouTube + Blog all done)
+**Status**: Phase 4 complete — awaiting Phase 5 (README rewrite) and Phase 6 (final cleanup)
 
 ---
 
@@ -263,12 +263,31 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ### Phase 4: Repository Organization
 
-- **Status**: Not started
-- **Note**: Folder structure is created incrementally as content is added during Phase 3
+- **Status**: Complete — 2026-04-15
+- **Changes made**:
+  - Deleted orphaned `research/` folder (early draft; superseded by `resources/`)
+  - Removed `scripts/fix_linkedin_dates.py` (one-time cleanup script, already run)
+  - Added `.claude/` to `.gitignore`
+  - `resources/other/` kept as-is: `blog-posts/` and `linkedin-topic-search/` remain there per user decision
 
 ### Phase 5: README Update
 
-- **Status**: Not started
+- **Status**: In progress — "Experts Covered" section written; remaining sections not yet started
+- **What's done**:
+  - "Experts Covered" section added to `README.md`: 10 numbered experts, each with a written bio/description (under 5 sentences), exact collection counts per platform, and a blank "Why this expert was chosen:" field for the user to fill in manually
+  - Original portfolio content (Cursor IDE setup) kept intact above the new section
+- **Next steps**:
+  1. User fills in "Why this expert was chosen:" fields manually
+  2. Claude optimizes the "Why chosen" copy after user fills it in
+  3. Remaining README sections still to write: "What This Is", overall collection summary, repository structure, how-to-reproduce, scripts table, research process
+- **Planned full structure** (for remaining sections):
+  1. Project title + one-line description
+  2. "What This Is" — 2–3 sentences on the research goal and pipeline approach
+  3. "What Was Collected" — summary table (LinkedIn 1,082 / YouTube 16 / Blog 53)
+  4. "Repository Structure" — annotated tree of actual current folders
+  5. "How to Reproduce" — clone → .env setup → pip install → run scripts
+  6. "Scripts" — table: script name, purpose, usage command
+  7. "Research Process" — how experts were selected (quality gates), link to plan.md
 
 ### Phase 6: Final Cleanup
 
@@ -280,34 +299,36 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ```
 William-cursor-AI-portfolio/
-├── README.md                          (rewritten in Phase 5 to cover this project)
-├── plan.md                            (this file)
+├── README.md                              (Phase 5 — rewrite in progress)
+├── plan.md                                (this file)
 ├── .gitignore
 ├── scripts/
-│   ├── README.md
-│   ├── fetch_youtube_transcript.py
-│   ├── batch_youtube.py
-│   ├── fetch_webpage.py
-│   └── config/
-│       └── experts.json
+│   ├── linkedin_scrape.py                 (LinkedIn 3-pass scraper — Apify)
+│   ├── youtube_transcripts.py             (YouTube transcript fetcher — Supadata API)
+│   └── blog_scraper.py                    (Blog scraper — requests + BS4)
 └── resources/
-    ├── sources.md
+    ├── sources.md                         (expert registry — 10 approved experts)
     ├── LinkedIn-posts/
-    │   └── [author-slug]/
-    │       └── [YYYY-MM-DD]-[post-slug].md
+    │   ├── [expert-slug]/                 (Pass 1 — posts from expert profiles)
+    │   │   └── unknown-[post-slug].md
+    │   └── search-results/               (Pass 2 — topic + expert name queries)
+    │       └── unknown-[query-slug]-[post-slug].md
     ├── youtube-transcripts/
-    │   └── [channel-slug]/
-    │       └── [YYYY-MM-DD]-[video-slug].md
+    │   └── [expert-slug]/
+    │       └── [video-id]-[title-slug].md
     └── other/
-        └── [source-slug]/
-            └── [YYYY-MM-DD]-[content-slug].md
+        ├── blog-posts/
+        │   └── [expert-slug]/
+        │       └── [url-slug].md
+        └── linkedin-topic-search/         (Pass 3 — broad keyword queries)
+            └── unknown-[query-slug]-[post-slug].md
 ```
 
 **Naming conventions:**
-
-- All slugs: lowercase, hyphen-separated, no spaces or special characters
-- All content filenames prefixed with `YYYY-MM-DD`
-- Example: `resources/youtube-transcripts/amy-porterfield/2024-03-15-webinar-funnel-from-scratch.md`
+- All slugs: lowercase, hyphen-separated
+- LinkedIn filenames: `unknown-` prefix (published dates not recoverable from Apify; see Known Limitations)
+- YouTube filenames: `[video-id]-[title-slug].md`
+- Blog filenames: `[url-slug].md`
 
 ---
 
@@ -405,7 +426,10 @@ One expert or one platform per commit. No giant dumps.
 ## Known Limitations
 
 - LinkedIn scraping operates in a ToS grey area; Apify is used as the least-risky approach
+- `published_date: "unknown"` on all LinkedIn files — Apify's `postedAt` field returns a nested dict; re-fetching would cost ~$2 of remaining Apify credit; accepted for this research pass
+- `published_date: "unknown"` on all YouTube files — Supadata transcript endpoint does not return publish date
 - Auto-generated YouTube transcripts may contain errors; no manual correction applied
-- Content represents a point-in-time snapshot; all collected dates are recorded in frontmatter
-- Podcast audio without posted transcripts requires either show notes (proxy) or manual transcription of key segments
+- 4 experts had 0 LinkedIn profile posts (Jason Fladlien, Mariah Coz, Dama Jue, Jon Penberthy) — profiles private or not found
+- Content represents a point-in-time snapshot (collected 2026-04-15); all collected dates are recorded in frontmatter
+- Deepgram API key provisioned but not used — all flagged podcast pages had sufficient written content
 
