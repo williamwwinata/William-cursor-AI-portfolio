@@ -3,7 +3,7 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 3 — Content Collection (LinkedIn + YouTube complete; blog scraping pending)
+**Status**: Phase 3 — Content Collection complete (LinkedIn + YouTube + Blog all done)
 
 ---
 
@@ -32,26 +32,27 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 ### Phase 3: Content Collection
 
-- **Status**: In progress — LinkedIn + YouTube complete; blog scraping pending
+- **Status**: Complete — all platforms collected
 - **Completed**: LinkedIn scraping (all 3 passes) — 2026-04-15
 - **Completed**: YouTube transcripts (all 16 videos) — 2026-04-15
+- **Completed**: Blog scraping (all 53 posts) — 2026-04-15
 - **Collection log**:
 
 | Expert | Platform | Items Planned | Items Collected | Status |
 |--------|----------|--------------|----------------|--------|
-| Russell Brunson | Blog (clickfunnels.com) | 8 | 0 | Pending |
+| Russell Brunson | Blog (clickfunnels.com) | 8 | 8 | Complete |
 | Jason Fladlien | YouTube | 9 | 9 | Complete |
 | Alex Hormozi | YouTube | 1 | 1 | Complete |
-| Mariah Coz | Blog (mariahcoz.com) | 7 | 0 | Pending |
-| Melissa Kwan | Blog (ewebinar.com) | 17 | 0 | Pending |
+| Mariah Coz | Blog (mariahcoz.com) | 7 | 7 | Complete |
+| Melissa Kwan | Blog (ewebinar.com) | 17 | 17 | Complete |
 | Pat Flynn | YouTube | 1 | 1 | Complete |
-| Dama Jue | Podcast page (heartsoulhustle.com) | 1 | 0 | Flagged — see below |
-| Omar Zenhom | Blog (webinarninja.com) | 18 | 0 | Pending |
-| Alex Cattoni | YouTube + Blog (copyposse.com) | 3 | 1 | YouTube done; blog pending |
+| Dama Jue | Podcast page (heartsoulhustle.com) | 1 | 1 | Complete — written content found, no audio transcription needed |
+| Omar Zenhom | Blog (webinarninja.com) | 18 | 18 | Complete |
+| Alex Cattoni | YouTube + Blog (copyposse.com) | 3 | 3 | Complete |
 | Jon Penberthy | YouTube | 4 | 4 | Complete |
 
-**Totals**: 16 YouTube videos · 52 blog posts · 3 podcast-embed pages flagged
-**YouTube**: 16/16 complete · **Blog**: 0/52 · **Podcast pages**: 0/3 flagged
+**Totals**: 16 YouTube · 53 blog/podcast posts
+**YouTube**: 16/16 complete · **Blog + podcast pages**: 53/53 complete
 
 ---
 
@@ -91,8 +92,8 @@ These links point to podcast episode pages that may contain embedded audio with 
 
 1. **LinkedIn scraping** (complete — 2026-04-15) — 3 passes via Apify; 1,082 posts collected. See "LinkedIn Scraping" section below for full results.
 2. **YouTube transcripts** (complete — 2026-04-15) — 16 videos via Supadata API. See "YouTube Transcripts" section below.
-3. **Blog scraping** (next up) — requests + BS4 for all 52 blog posts
-4. **Podcast pages** — handle flagged pages after user decides on audio transcription API
+3. **Blog scraping** (complete — 2026-04-15) — 53 posts via requests + BS4. See "Blog Scraping" section below.
+4. **Podcast pages** — resolved during blog scraping; all 3 flagged pages had sufficient written content. Deepgram not needed.
 
 ---
 
@@ -208,6 +209,34 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 | LinkedIn Post Search Scraper | `harvestapi/linkedin-post-search` | Pass 2 & 3 | No cookies required |
 
 **Script**: `scripts/linkedin_scrape.py` — run with `--pass 1`, `--pass 2`, `--pass 3`, or `--pass all`
+
+---
+
+#### Blog Scraping — Complete (2026-04-15)
+
+**Status**: All 53 posts scraped and saved. No Deepgram transcription needed — all flagged podcast pages had written content.
+
+**Tool**: `requests` + `BeautifulSoup4` — domain-specific CSS selectors tuned per site.
+
+**Script**: `scripts/blog_scraper.py`
+
+| Expert | Posts | Domain | Content selector used |
+|--------|-------|--------|----------------------|
+| Russell Brunson | 8 | clickfunnels.com | `.entry-content` |
+| Mariah Coz | 7 | mariahcoz.com | `div.route` |
+| Melissa Kwan | 17 | ewebinar.com | `.blog_post_body` |
+| Omar Zenhom | 18 | webinarninja.com | `article` |
+| Alex Cattoni | 2 | copyposse.com | `.single-post` |
+| Dama Jue | 1 | heartsoulhustle.com | `article` |
+| **Total** | **53** | | |
+
+**Output**: `resources/other/blog-posts/[expert-slug]/[url-slug].md`
+
+**Flagged podcast pages — resolved**:
+- `clickfunnels.com/blog/podcast-696-peter-pru` → 1,010 words of show notes — scraped as blog post
+- `clickfunnels.com/blog/podcast-670-tim-shields` → 918 words of show notes — scraped as blog post
+- `heartsoulhustle.com/blogs/episode-077` → 10,655 words (full written transcript) — scraped as blog post
+- **Deepgram not used** — all three pages had adequate written content
 
 ---
 
