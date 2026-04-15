@@ -3,13 +3,13 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 4 complete — awaiting Phase 5 (README rewrite) and Phase 6 (final cleanup)
+**Status**: Phase 5 complete, awaiting Phase 6 (final cleanup and commit)
 
 ---
 
 ## Objective
 
-Map the best publicly available knowledge on building a webinar funnel from zero — covering registration pages, email sequences, show-up rate optimization, live delivery, and replay/follow-up sequences. The goal is to collect enough high-quality, practitioner-sourced material to support writing a real playbook later. Sources must be people who have actually run webinars and reported real results, not just theorists.
+Map the best publicly available knowledge on building a webinar funnel from zero, covering registration pages, email sequences, show-up rate optimization, live delivery, and replay/follow-up sequences. The goal is to collect enough high-quality, practitioner-sourced material to support writing a real playbook later. Sources must be people who have actually run webinars and reported real results, not just theorists.
 
 ---
 
@@ -19,7 +19,7 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 - **Status**: Complete
 - **Completed**: 2026-04-14
-- **Output**: `resources/sources.md` — 15+ candidate experts with quality gate scoring
+- **Output**: `resources/sources.md` with 15+ candidate experts with quality gate scoring
 - **Decision log**: See "Decisions and Trade-offs" section below
 
 ### Phase 2: User Review Checkpoint
@@ -32,10 +32,10 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 ### Phase 3: Content Collection
 
-- **Status**: Complete — all platforms collected
-- **Completed**: LinkedIn scraping (all 3 passes) — 2026-04-15
-- **Completed**: YouTube transcripts (all 16 videos) — 2026-04-15
-- **Completed**: Blog scraping (all 53 posts) — 2026-04-15
+- **Status**: Complete: all platforms collected
+- **Completed**: LinkedIn scraping (all 3 passes): 2026-04-15
+- **Completed**: YouTube transcripts (all 16 videos): 2026-04-15
+- **Completed**: Blog scraping (all 53 posts): 2026-04-15
 - **Collection log**:
 
 | Expert | Platform | Items Planned | Items Collected | Status |
@@ -46,7 +46,7 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 | Mariah Coz | Blog (mariahcoz.com) | 7 | 7 | Complete |
 | Melissa Kwan | Blog (ewebinar.com) | 17 | 17 | Complete |
 | Pat Flynn | YouTube | 1 | 1 | Complete |
-| Dama Jue | Podcast page (heartsoulhustle.com) | 1 | 1 | Complete — written content found, no audio transcription needed |
+| Dama Jue | Podcast page (heartsoulhustle.com) | 1 | 1 | Complete: written content found, no audio transcription needed |
 | Omar Zenhom | Blog (webinarninja.com) | 18 | 18 | Complete |
 | Alex Cattoni | YouTube + Blog (copyposse.com) | 3 | 3 | Complete |
 | Jon Penberthy | YouTube | 4 | 4 | Complete |
@@ -60,16 +60,16 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 | Domain | Scrapable? | Method | Notes |
 |--------|-----------|--------|-------|
-| clickfunnels.com/blog | Yes | requests + BS4 | Standard HTML blog. Two posts (`podcast-696`, `podcast-670`) are podcast episode pages — flagged for audio handling |
+| clickfunnels.com/blog | Yes | requests + BS4 | Standard HTML blog. Two posts (`podcast-696`, `podcast-670`) are podcast episode pages, flagged for audio handling |
 | mariahcoz.com/blog | Yes | requests + BS4 | Standard WordPress/personal blog |
 | ewebinar.com/blog | Yes | requests + BS4 | Company blog, standard HTML |
 | webinarninja.com/blog | Yes | requests + BS4 | Company blog, standard HTML |
 | copyposse.com/blog | Yes | requests + BS4 | Brand blog, standard HTML |
-| heartsoulhustle.com/blogs | TBD | requests + BS4 | Podcast episode page — check for written transcript first; may be audio-only embed |
+| heartsoulhustle.com/blogs | TBD | requests + BS4 | Podcast episode page: check for written transcript first; may be audio-only embed |
 
 ---
 
-#### Podcast Audio — Flagged Pages (3 total)
+#### Podcast Audio: Flagged Pages (3 total)
 
 These links point to podcast episode pages that may contain embedded audio with no written transcript:
 
@@ -88,16 +88,16 @@ These links point to podcast episode pages that may contain embedded audio with 
 
 ---
 
-#### Phase 3 Sequence — Planned Order
+#### Phase 3 Sequence: Planned Order
 
-1. **LinkedIn scraping** (complete — 2026-04-15) — 3 passes via Apify; 1,082 posts collected. See "LinkedIn Scraping" section below for full results.
-2. **YouTube transcripts** (complete — 2026-04-15) — 16 videos via Supadata API. See "YouTube Transcripts" section below.
-3. **Blog scraping** (complete — 2026-04-15) — 53 posts via requests + BS4. See "Blog Scraping" section below.
-4. **Podcast pages** — resolved during blog scraping; all 3 flagged pages had sufficient written content. Deepgram not needed.
+1. **LinkedIn scraping** (complete: 2026-04-15), 3 passes via Apify; 1,082 posts collected. See "LinkedIn Scraping" section below for full results.
+2. **YouTube transcripts** (complete: 2026-04-15), 16 videos via Supadata API. See "YouTube Transcripts" section below.
+3. **Blog scraping** (complete: 2026-04-15), 53 posts via requests + BS4. See "Blog Scraping" section below.
+4. **Podcast pages**: resolved during blog scraping; all 3 flagged pages had sufficient written content. Deepgram not needed.
 
 ---
 
-#### LinkedIn Scraping — Complete (2026-04-15)
+#### LinkedIn Scraping: Complete (2026-04-15)
 
 **Status**: All 3 passes ran and committed. 1,082 posts saved. Awaiting user review.
 
@@ -107,9 +107,9 @@ These links point to podcast episode pages that may contain embedded audio with 
 
 | LinkedIn Scraping Pass | Description | Posts Collected | Output Location |
 |------------------------|-------------|----------------|-----------------|
-| Pass 1 — Expert profiles | Posts directly from each approved expert's LinkedIn profile | 483 | `resources/LinkedIn-posts/[expert-slug]/` |
-| Pass 2 — Topic + expert name | Posts mentioning a webinar topic AND an expert's name | 265 | `resources/LinkedIn-posts/search-results/` |
-| Pass 3 — Topic keywords only | Broad keyword sweep, no expert name constraint | 334 | `resources/other/linkedin-topic-search/` |
+| Pass 1: Expert profiles | Posts directly from each approved expert's LinkedIn profile | 483 | `resources/LinkedIn-posts/[expert-slug]/` |
+| Pass 2: Topic + expert name | Posts mentioning a webinar topic AND an expert's name | 265 | `resources/LinkedIn-posts/search-results/` |
+| Pass 3: Topic keywords only | Broad keyword sweep, no expert name constraint | 334 | `resources/other/linkedin-topic-search/` |
 | **Total** | | **1,082** | |
 
 **Pass 1 expert breakdown:**
@@ -127,7 +127,7 @@ These links point to podcast episode pages that may contain embedded audio with 
 | Dama Jue | 0 | Profile not found / private |
 | Jon Penberthy | 0 | Profile not found / private |
 
-**Known issue**: `published_date` is set to `"unknown"` on all LinkedIn files. The Apify actor returns `postedAt` as a nested dict — the parser was fixed after the run; a re-run would recover real dates but would cost ~$2 of the remaining ~$2.70 free tier credit. Decision: leave as `"unknown"` for this research pass.
+**Known issue**: `published_date` is set to `"unknown"` on all LinkedIn files. The Apify actor returns `postedAt` as a nested dict; the parser was fixed after the run; a re-run would recover real dates but would cost ~$2 of the remaining ~$2.70 free tier credit. Decision: leave as `"unknown"` for this research pass.
 
 **Apify credit usage** (FREE plan, $5/month):
 - Spent: ~$2.30 (all of today's LinkedIn runs)
@@ -136,11 +136,11 @@ These links point to podcast episode pages that may contain embedded audio with 
 
 ---
 
-**Pass 1 — Expert profiles (highest priority)**
+**Pass 1: Expert profiles (highest priority)**
 
 Scrape posts directly from each approved expert's LinkedIn profile.
 
-Tool: **Apify — LinkedIn Profile Scraper**
+Tool: **Apify: LinkedIn Profile Scraper**
 
 | Expert | LinkedIn URL |
 |--------|-------------|
@@ -159,11 +159,11 @@ Output location: `resources/LinkedIn-posts/[expert-slug]/[YYYY-MM-DD]-[post-slug
 
 ---
 
-**Pass 2 — Topic + expert name (second priority)**
+**Pass 2: Topic + expert name (second priority)**
 
 Search LinkedIn posts that mention a webinar topic AND at least one approved expert's name. This catches expert mentions, reposts, and commentary from others.
 
-Tool: **Apify — LinkedIn Posts Search Scraper**
+Tool: **Apify: LinkedIn Posts Search Scraper**
 
 Queries (each expert name paired with core topics):
 1. `"Russell Brunson" webinar funnel`
@@ -181,11 +181,11 @@ Output location: `resources/LinkedIn-posts/search-results/[YYYY-MM-DD]-[query-sl
 
 ---
 
-**Pass 3 — Webinar topic keywords only (third priority)**
+**Pass 3: Webinar topic keywords only (third priority)**
 
 Broad keyword sweep with no expert name constraint. Surfaces practitioners outside the approved list.
 
-Tool: **Apify — LinkedIn Posts Search Scraper**
+Tool: **Apify: LinkedIn Posts Search Scraper**
 
 Queries (in priority order):
 1. `"webinar funnel"`
@@ -208,15 +208,15 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 | LinkedIn Profile Posts Scraper | `harvestapi/linkedin-profile-posts` | Pass 1 | No cookies required |
 | LinkedIn Post Search Scraper | `harvestapi/linkedin-post-search` | Pass 2 & 3 | No cookies required |
 
-**Script**: `scripts/linkedin_scrape.py` — run with `--pass 1`, `--pass 2`, `--pass 3`, or `--pass all`
+**Script**: `scripts/linkedin_scrape.py`, run with `--pass 1`, `--pass 2`, `--pass 3`, or `--pass all`
 
 ---
 
-#### Blog Scraping — Complete (2026-04-15)
+#### Blog Scraping: Complete (2026-04-15)
 
-**Status**: All 53 posts scraped and saved. No Deepgram transcription needed — all flagged podcast pages had written content.
+**Status**: All 53 posts scraped and saved. No Deepgram transcription needed; all flagged podcast pages had written content.
 
-**Tool**: `requests` + `BeautifulSoup4` — domain-specific CSS selectors tuned per site.
+**Tool**: `requests` + `BeautifulSoup4`, with domain-specific CSS selectors tuned per site.
 
 **Script**: `scripts/blog_scraper.py`
 
@@ -232,19 +232,19 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 **Output**: `resources/other/blog-posts/[expert-slug]/[url-slug].md`
 
-**Flagged podcast pages — resolved**:
-- `clickfunnels.com/blog/podcast-696-peter-pru` → 1,010 words of show notes — scraped as blog post
-- `clickfunnels.com/blog/podcast-670-tim-shields` → 918 words of show notes — scraped as blog post
-- `heartsoulhustle.com/blogs/episode-077` → 10,655 words (full written transcript) — scraped as blog post
-- **Deepgram not used** — all three pages had adequate written content
+**Flagged podcast pages: resolved**:
+- `clickfunnels.com/blog/podcast-696-peter-pru` → 1,010 words of show notes, scraped as blog post
+- `clickfunnels.com/blog/podcast-670-tim-shields` → 918 words of show notes, scraped as blog post
+- `heartsoulhustle.com/blogs/episode-077` → 10,655 words (full written transcript), scraped as blog post
+- **Deepgram not used**: all three pages had adequate written content
 
 ---
 
-#### YouTube Transcripts — Complete (2026-04-15)
+#### YouTube Transcripts: Complete (2026-04-15)
 
 **Status**: All 16 videos fetched and committed. Awaiting user review (confirmed OK).
 
-**Tool**: Supadata API (`https://api.supadata.ai/v1/youtube/transcript`) — `text: true` returns plain text transcript. Video titles fetched separately via `/metadata` endpoint.
+**Tool**: Supadata API (`https://api.supadata.ai/v1/youtube/transcript`): `text: true` returns plain text transcript. Video titles fetched separately via `/metadata` endpoint.
 
 **Script**: `scripts/youtube_transcripts.py`
 
@@ -257,13 +257,13 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 | Alex Cattoni | 1 | `resources/youtube-transcripts/alex-cattoni/` |
 | **Total** | **16** | |
 
-**Note**: `published_date: "unknown"` on all files — Supadata transcript endpoint does not return publish date. Not re-fetched to avoid extra API cost.
+**Note**: `published_date: "unknown"` on all files; Supadata transcript endpoint does not return publish date. Not re-fetched to avoid extra API cost.
 
 ---
 
 ### Phase 4: Repository Organization
 
-- **Status**: Complete — 2026-04-15
+- **Status**: Complete: 2026-04-15
 - **Changes made**:
   - Deleted orphaned `research/` folder (early draft; superseded by `resources/`)
   - Removed `scripts/fix_linkedin_dates.py` (one-time cleanup script, already run)
@@ -272,26 +272,25 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ### Phase 5: README Update
 
-- **Status**: In progress — "Experts Covered" section written; remaining sections not yet started
-- **What's done**:
-  - "Experts Covered" section added to `README.md`: 10 numbered experts, each with a written bio/description (under 5 sentences), exact collection counts per platform, and a blank "Why this expert was chosen:" field for the user to fill in manually
-  - Original portfolio content (Cursor IDE setup) kept intact above the new section
-- **Next steps**:
-  1. User fills in "Why this expert was chosen:" fields manually
-  2. Claude optimizes the "Why chosen" copy after user fills it in
-  3. Remaining README sections still to write: "What This Is", overall collection summary, repository structure, how-to-reproduce, scripts table, research process
-- **Planned full structure** (for remaining sections):
-  1. Project title + one-line description
-  2. "What This Is" — 2–3 sentences on the research goal and pipeline approach
-  3. "What Was Collected" — summary table (LinkedIn 1,082 / YouTube 16 / Blog 53)
-  4. "Repository Structure" — annotated tree of actual current folders
-  5. "How to Reproduce" — clone → .env setup → pip install → run scripts
-  6. "Scripts" — table: script name, purpose, usage command
-  7. "Research Process" — how experts were selected (quality gates), link to plan.md
+- **Status**: Complete: 2026-04-15
+- **What was done**:
+  - "Experts Covered" section written: 10 numbered experts, each with bio/description, exact collection counts per platform, and "Why this expert was chosen" field
+  - William wrote all "Why this expert was chosen" fields personally, without prompting
+  - William cross-checked his written rationale against the actual collected resources and identified 3 misalignments (Pat Flynn, Dama Jue, Jon Penberthy) and 1 partial misalignment (Alex Hormozi); all 4 were corrected to reflect what the resources actually contain
+  - Remaining README sections written: "What Was Collected" (summary table), "Research Process" (including explicit agency narrative), "Repository Structure" (annotated folder tree), "How to Reproduce" (setup steps + scripts table combined per user request)
+  - Em dashes removed from both `README.md` and `plan.md`
+  - Original portfolio content (Cursor IDE setup) kept intact above the research section
+- **Decisions made during Phase 5**:
+  - "Scripts" section merged into "How to Reproduce" per user request
+  - "Research Process" section written to explicitly document William's agency throughout: objective-setting, expert curation, phase-by-phase review checkpoints, personal authorship of all "Why chosen" text, and self-directed corrections after cross-checking rationale against sources
 
 ### Phase 6: Final Cleanup
 
 - **Status**: Not started
+- **Remaining tasks**:
+  - Final review of README for any remaining inconsistencies
+  - Commit all Phase 5 changes with a clean commit message
+  - Close out plan.md with final status update
 
 ---
 
@@ -299,19 +298,19 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ```
 William-cursor-AI-portfolio/
-├── README.md                              (Phase 5 — rewrite in progress)
+├── README.md                              (Phase 5: rewrite in progress)
 ├── plan.md                                (this file)
 ├── .gitignore
 ├── scripts/
-│   ├── linkedin_scrape.py                 (LinkedIn 3-pass scraper — Apify)
-│   ├── youtube_transcripts.py             (YouTube transcript fetcher — Supadata API)
-│   └── blog_scraper.py                    (Blog scraper — requests + BS4)
+│   ├── linkedin_scrape.py                 (LinkedIn 3-pass scraper, Apify)
+│   ├── youtube_transcripts.py             (YouTube transcript fetcher, Supadata API)
+│   └── blog_scraper.py                    (Blog scraper, requests + BS4)
 └── resources/
-    ├── sources.md                         (expert registry — 10 approved experts)
+    ├── sources.md                         (expert registry: 10 approved experts)
     ├── LinkedIn-posts/
-    │   ├── [expert-slug]/                 (Pass 1 — posts from expert profiles)
+    │   ├── [expert-slug]/                 (Pass 1: posts from expert profiles)
     │   │   └── unknown-[post-slug].md
-    │   └── search-results/               (Pass 2 — topic + expert name queries)
+    │   └── search-results/               (Pass 2: topic + expert name queries)
     │       └── unknown-[query-slug]-[post-slug].md
     ├── youtube-transcripts/
     │   └── [expert-slug]/
@@ -320,7 +319,7 @@ William-cursor-AI-portfolio/
         ├── blog-posts/
         │   └── [expert-slug]/
         │       └── [url-slug].md
-        └── linkedin-topic-search/         (Pass 3 — broad keyword queries)
+        └── linkedin-topic-search/         (Pass 3: broad keyword queries)
             └── unknown-[query-slug]-[post-slug].md
 ```
 
@@ -394,7 +393,7 @@ LinkedIn does not allow scraping under its ToS. Decision tree (in priority order
 2. **Regular posts** → Apify LinkedIn Posts Scraper (free tier ~$5 credits/month)
 3. **Fallback** → manual copy-paste, noted with `collection_method: manual`
 
-Custom LinkedIn scrapers are out of scope — too brittle and ToS risk.
+Custom LinkedIn scrapers are out of scope: too brittle and ToS risk.
 
 ---
 
@@ -426,10 +425,10 @@ One expert or one platform per commit. No giant dumps.
 ## Known Limitations
 
 - LinkedIn scraping operates in a ToS grey area; Apify is used as the least-risky approach
-- `published_date: "unknown"` on all LinkedIn files — Apify's `postedAt` field returns a nested dict; re-fetching would cost ~$2 of remaining Apify credit; accepted for this research pass
-- `published_date: "unknown"` on all YouTube files — Supadata transcript endpoint does not return publish date
+- `published_date: "unknown"` on all LinkedIn files; Apify's `postedAt` field returns a nested dict; re-fetching would cost ~$2 of remaining Apify credit; accepted for this research pass
+- `published_date: "unknown"` on all YouTube files; Supadata transcript endpoint does not return publish date
 - Auto-generated YouTube transcripts may contain errors; no manual correction applied
-- 4 experts had 0 LinkedIn profile posts (Jason Fladlien, Mariah Coz, Dama Jue, Jon Penberthy) — profiles private or not found
+- 4 experts had 0 LinkedIn profile posts (Jason Fladlien, Mariah Coz, Dama Jue, Jon Penberthy): profiles private or not found
 - Content represents a point-in-time snapshot (collected 2026-04-15); all collected dates are recorded in frontmatter
-- Deepgram API key provisioned but not used — all flagged podcast pages had sufficient written content
+- Deepgram API key provisioned but not used; all flagged podcast pages had sufficient written content
 
