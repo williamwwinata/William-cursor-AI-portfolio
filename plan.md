@@ -3,7 +3,7 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 3 — Content Collection (LinkedIn scraping complete; YouTube + blog pending)
+**Status**: Phase 3 — Content Collection (LinkedIn + YouTube complete; blog scraping pending)
 
 ---
 
@@ -32,24 +32,26 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 ### Phase 3: Content Collection
 
-- **Status**: In progress — LinkedIn scraping complete; YouTube transcripts and blog scraping pending
+- **Status**: In progress — LinkedIn + YouTube complete; blog scraping pending
 - **Completed**: LinkedIn scraping (all 3 passes) — 2026-04-15
+- **Completed**: YouTube transcripts (all 16 videos) — 2026-04-15
 - **Collection log**:
 
 | Expert | Platform | Items Planned | Items Collected | Status |
 |--------|----------|--------------|----------------|--------|
 | Russell Brunson | Blog (clickfunnels.com) | 8 | 0 | Pending |
-| Jason Fladlien | YouTube | 9 | 0 | Pending |
-| Alex Hormozi | YouTube | 1 | 0 | Pending |
+| Jason Fladlien | YouTube | 9 | 9 | Complete |
+| Alex Hormozi | YouTube | 1 | 1 | Complete |
 | Mariah Coz | Blog (mariahcoz.com) | 7 | 0 | Pending |
 | Melissa Kwan | Blog (ewebinar.com) | 17 | 0 | Pending |
-| Pat Flynn | YouTube | 1 | 0 | Pending |
+| Pat Flynn | YouTube | 1 | 1 | Complete |
 | Dama Jue | Podcast page (heartsoulhustle.com) | 1 | 0 | Flagged — see below |
 | Omar Zenhom | Blog (webinarninja.com) | 18 | 0 | Pending |
-| Alex Cattoni | YouTube + Blog (copyposse.com) | 3 | 0 | Pending |
-| Jon Penberthy | YouTube | 4 | 0 | Pending |
+| Alex Cattoni | YouTube + Blog (copyposse.com) | 3 | 1 | YouTube done; blog pending |
+| Jon Penberthy | YouTube | 4 | 4 | Complete |
 
 **Totals**: 16 YouTube videos · 52 blog posts · 3 podcast-embed pages flagged
+**YouTube**: 16/16 complete · **Blog**: 0/52 · **Podcast pages**: 0/3 flagged
 
 ---
 
@@ -88,8 +90,8 @@ These links point to podcast episode pages that may contain embedded audio with 
 #### Phase 3 Sequence — Planned Order
 
 1. **LinkedIn scraping** (complete — 2026-04-15) — 3 passes via Apify; 1,082 posts collected. See "LinkedIn Scraping" section below for full results.
-2. **YouTube transcripts** (next up) — Supadata API for all 16 videos
-3. **Blog scraping** — requests + BS4 for all 52 blog posts
+2. **YouTube transcripts** (complete — 2026-04-15) — 16 videos via Supadata API. See "YouTube Transcripts" section below.
+3. **Blog scraping** (next up) — requests + BS4 for all 52 blog posts
 4. **Podcast pages** — handle flagged pages after user decides on audio transcription API
 
 ---
@@ -206,6 +208,27 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 | LinkedIn Post Search Scraper | `harvestapi/linkedin-post-search` | Pass 2 & 3 | No cookies required |
 
 **Script**: `scripts/linkedin_scrape.py` — run with `--pass 1`, `--pass 2`, `--pass 3`, or `--pass all`
+
+---
+
+#### YouTube Transcripts — Complete (2026-04-15)
+
+**Status**: All 16 videos fetched and committed. Awaiting user review (confirmed OK).
+
+**Tool**: Supadata API (`https://api.supadata.ai/v1/youtube/transcript`) — `text: true` returns plain text transcript. Video titles fetched separately via `/metadata` endpoint.
+
+**Script**: `scripts/youtube_transcripts.py`
+
+| Expert | Videos | Output location |
+|--------|--------|-----------------|
+| Jason Fladlien | 9 | `resources/youtube-transcripts/jason-fladlien/` |
+| Jon Penberthy | 4 | `resources/youtube-transcripts/jon-penberthy/` |
+| Alex Hormozi | 1 | `resources/youtube-transcripts/alex-hormozi/` |
+| Pat Flynn | 1 | `resources/youtube-transcripts/pat-flynn/` |
+| Alex Cattoni | 1 | `resources/youtube-transcripts/alex-cattoni/` |
+| **Total** | **16** | |
+
+**Note**: `published_date: "unknown"` on all files — Supadata transcript endpoint does not return publish date. Not re-fetched to avoid extra API cost.
 
 ---
 
