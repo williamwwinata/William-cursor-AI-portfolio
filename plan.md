@@ -3,7 +3,7 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 5 complete, awaiting Phase 6 (final cleanup and commit)
+**Status**: Complete — all phases done
 
 ---
 
@@ -17,22 +17,20 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 ### Phase 1: Expert Discovery
 
-- **Status**: Complete
-- **Completed**: 2026-04-14
+- **Status**: Complete (2026-04-14)
 - **Output**: `resources/sources.md` with 15+ candidate experts with quality gate scoring
 - **Decision log**: See "Decisions and Trade-offs" section below
 
 ### Phase 2: User Review Checkpoint
 
-- **Status**: Complete
-- **Completed**: 2026-04-14
+- **Status**: Complete (2026-04-14)
 - **Feedback received**: User selected 10 of 17 candidates and added 2 new experts not in the original draft
 - **Approved experts**: Russell Brunson, Jason Fladlien, Alex Hormozi, Mariah Coz, Melissa Kwan, Pat Flynn, Dama Jue, Omar Zenhom, Alex Cattoni, Jon Penberthy
 - **Removed from draft**: Amy Porterfield, Todd Brown, Jon Schumacher, Sunny Lenarduzzi, Stu McLaren, Tarzan Kay, Navid Moazzez, Alyssa J. Dillon, Lewis Howes
 
 ### Phase 3: Content Collection
 
-- **Status**: Complete: all platforms collected
+- **Status**: Complete (2026-04-15)
 - **Completed**: LinkedIn scraping (all 3 passes): 2026-04-15
 - **Completed**: YouTube transcripts (all 16 videos): 2026-04-15
 - **Completed**: Blog scraping (all 53 posts): 2026-04-15
@@ -57,6 +55,7 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 ---
 
 #### Scrapability Assessment (blogs)
+*Planning notes, kept for reference.*
 
 | Domain | Scrapable? | Method | Notes |
 |--------|-----------|--------|-------|
@@ -70,6 +69,7 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 ---
 
 #### Podcast Audio: Flagged Pages (3 total)
+*Planning notes, kept for reference. All 3 flagged pages resolved with written content.*
 
 These links point to podcast episode pages that may contain embedded audio with no written transcript:
 
@@ -89,6 +89,7 @@ These links point to podcast episode pages that may contain embedded audio with 
 ---
 
 #### Phase 3 Sequence: Planned Order
+*Planning notes, kept for reference.*
 
 1. **LinkedIn scraping** (complete: 2026-04-15), 3 passes via Apify; 1,082 posts collected. See "LinkedIn Scraping" section below for full results.
 2. **YouTube transcripts** (complete: 2026-04-15), 16 videos via Supadata API. See "YouTube Transcripts" section below.
@@ -98,8 +99,9 @@ These links point to podcast episode pages that may contain embedded audio with 
 ---
 
 #### LinkedIn Scraping: Complete (2026-04-15)
+*Execution log.*
 
-**Status**: All 3 passes ran and committed. 1,082 posts saved. Awaiting user review.
+**Status**: All 3 passes ran and committed. 1,082 posts saved. User review complete.
 
 **Goal**: Collect publicly available LinkedIn posts relevant to webinar funnels. Ran in three passes in strict priority order.
 
@@ -213,6 +215,7 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 ---
 
 #### Blog Scraping: Complete (2026-04-15)
+*Execution log.*
 
 **Status**: All 53 posts scraped and saved. No Deepgram transcription needed; all flagged podcast pages had written content.
 
@@ -241,6 +244,7 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 ---
 
 #### YouTube Transcripts: Complete (2026-04-15)
+*Execution log.*
 
 **Status**: All 16 videos fetched and committed. Awaiting user review (confirmed OK).
 
@@ -263,7 +267,7 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ### Phase 4: Repository Organization
 
-- **Status**: Complete: 2026-04-15
+- **Status**: Complete (2026-04-15)
 - **Changes made**:
   - Deleted orphaned `research/` folder (early draft; superseded by `resources/`)
   - Removed `scripts/fix_linkedin_dates.py` (one-time cleanup script, already run)
@@ -272,7 +276,7 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ### Phase 5: README Update
 
-- **Status**: Complete: 2026-04-15
+- **Status**: Complete (2026-04-15)
 - **What was done**:
   - "Experts Covered" section written: 10 numbered experts, each with bio/description, exact collection counts per platform, and "Why this expert was chosen" field
   - William wrote all "Why this expert was chosen" fields personally, without prompting
@@ -280,17 +284,20 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
   - Remaining README sections written: "What Was Collected" (summary table), "Research Process" (including explicit agency narrative), "Repository Structure" (annotated folder tree), "How to Reproduce" (setup steps + scripts table combined per user request)
   - Em dashes removed from both `README.md` and `plan.md`
   - Original portfolio content (Cursor IDE setup) kept intact above the research section
-- **Decisions made during Phase 5**:
-  - "Scripts" section merged into "How to Reproduce" per user request
-  - "Research Process" section written to explicitly document William's agency throughout: objective-setting, expert curation, phase-by-phase review checkpoints, personal authorship of all "Why chosen" text, and self-directed corrections after cross-checking rationale against sources
 
 ### Phase 6: Final Cleanup
 
-- **Status**: Not started
-- **Remaining tasks**:
-  - Final review of README for any remaining inconsistencies
-  - Commit all Phase 5 changes with a clean commit message
-  - Close out plan.md with final status update
+- **Status**: Complete (2026-04-15)
+- **What was done**:
+  - Final review of README.md and plan.md for inconsistencies; 10 issues identified and resolved
+  - plan.md readability improvements: Reference Documentation divider added, Phase 3 sub-sections labelled as planning notes or execution logs, Status labels standardized to Complete (YYYY-MM-DD) format
+  - plan.md status updated to reflect all phases complete
+
+---
+
+## Reference Documentation
+
+The sections below were written during the planning and execution phases. They are kept as a technical reference and decision log.
 
 ---
 
@@ -298,7 +305,7 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ```
 William-cursor-AI-portfolio/
-├── README.md                              (Phase 5: rewrite in progress)
+├── README.md                              (Phase 5: complete)
 ├── plan.md                                (this file)
 ├── .gitignore
 ├── scripts/
@@ -368,8 +375,8 @@ Every collected content file uses YAML frontmatter:
 ```markdown
 ---
 title: "..."
-author: "Amy Porterfield"
-author_slug: "amy-porterfield"
+author: "Russell Brunson"
+author_slug: "russell-brunson"
 platform: "youtube"
 source_url: "https://..."
 published_date: "2024-03-15"
@@ -394,22 +401,6 @@ LinkedIn does not allow scraping under its ToS. Decision tree (in priority order
 3. **Fallback** → manual copy-paste, noted with `collection_method: manual`
 
 Custom LinkedIn scrapers are out of scope: too brittle and ToS risk.
-
----
-
-## Commit Strategy
-
-One expert or one platform per commit. No giant dumps.
-
-
-| Commit | Contents                                                                      |
-| ------ | ----------------------------------------------------------------------------- |
-| 1      | `plan.md` + `resources/sources.md` draft (15+ candidates)                     |
-| 2      | Updated `sources.md` after user review (approved final list)                  |
-| 3+     | Per-expert content batches (e.g., "Add YouTube transcripts: Amy Porterfield") |
-| N-1    | README rewrite                                                                |
-| N      | Final cleanup and plan.md status updates                                      |
-
 
 ---
 
