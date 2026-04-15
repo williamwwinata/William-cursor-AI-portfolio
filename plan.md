@@ -3,7 +3,7 @@
 **Project**: 100hires Evaluation Task  
 **Researcher**: William Winata  
 **Started**: 2026-04-14  
-**Status**: Phase 3 — Content Collection (awaiting user content links)
+**Status**: Phase 3 — Content Collection (LinkedIn scraping complete; YouTube + blog pending)
 
 ---
 
@@ -32,7 +32,8 @@ Map the best publicly available knowledge on building a webinar funnel from zero
 
 ### Phase 3: Content Collection
 
-- **Status**: Pre-flight analysis complete — awaiting user command to begin
+- **Status**: In progress — LinkedIn scraping complete; YouTube transcripts and blog scraping pending
+- **Completed**: LinkedIn scraping (all 3 passes) — 2026-04-15
 - **Collection log**:
 
 | Expert | Platform | Items Planned | Items Collected | Status |
@@ -86,16 +87,49 @@ These links point to podcast episode pages that may contain embedded audio with 
 
 #### Phase 3 Sequence — Planned Order
 
-1. **LinkedIn keyword search** (next up) — scrape public posts matching "webinar funnel from zero" and related queries across LinkedIn broadly, not limited to the 10 experts
-2. **YouTube transcripts** — Supadata API for all 16 videos
+1. **LinkedIn scraping** (complete — 2026-04-15) — 3 passes via Apify; 1,082 posts collected. See "LinkedIn Scraping" section below for full results.
+2. **YouTube transcripts** (next up) — Supadata API for all 16 videos
 3. **Blog scraping** — requests + BS4 for all 52 blog posts
 4. **Podcast pages** — handle flagged pages after user decides on audio transcription API
 
 ---
 
-#### LinkedIn Scraping — Plan
+#### LinkedIn Scraping — Complete (2026-04-15)
 
-**Goal**: Collect publicly available LinkedIn posts relevant to webinar funnels. Run in three passes in strict priority order — complete each pass fully before starting the next. Stop after all three passes for user review.
+**Status**: All 3 passes ran and committed. 1,082 posts saved. Awaiting user review.
+
+**Goal**: Collect publicly available LinkedIn posts relevant to webinar funnels. Ran in three passes in strict priority order.
+
+**Results summary:**
+
+| LinkedIn Scraping Pass | Description | Posts Collected | Output Location |
+|------------------------|-------------|----------------|-----------------|
+| Pass 1 — Expert profiles | Posts directly from each approved expert's LinkedIn profile | 483 | `resources/LinkedIn-posts/[expert-slug]/` |
+| Pass 2 — Topic + expert name | Posts mentioning a webinar topic AND an expert's name | 265 | `resources/LinkedIn-posts/search-results/` |
+| Pass 3 — Topic keywords only | Broad keyword sweep, no expert name constraint | 334 | `resources/other/linkedin-topic-search/` |
+| **Total** | | **1,082** | |
+
+**Pass 1 expert breakdown:**
+
+| Expert | Posts collected | Notes |
+|--------|----------------|-------|
+| Russell Brunson | 100 | Many posts via ClickFunnels company page |
+| Alex Cattoni | 100 | |
+| Melissa Kwan | 97 | |
+| Omar Zenhom | 98 | |
+| Alex Hormozi | 82 | |
+| Pat Flynn | 6 | Low activity on LinkedIn |
+| Jason Fladlien | 0 | Profile not found / private |
+| Mariah Coz | 0 | Profile not found / private |
+| Dama Jue | 0 | Profile not found / private |
+| Jon Penberthy | 0 | Profile not found / private |
+
+**Known issue**: `published_date` is set to `"unknown"` on all LinkedIn files. The Apify actor returns `postedAt` as a nested dict — the parser was fixed after the run; a re-run would recover real dates but would cost ~$2 of the remaining ~$2.70 free tier credit. Decision: leave as `"unknown"` for this research pass.
+
+**Apify credit usage** (FREE plan, $5/month):
+- Spent: ~$2.30 (all of today's LinkedIn runs)
+- Remaining: ~$2.70
+- Cycle ends: 2026-05-13
 
 ---
 
@@ -164,19 +198,14 @@ Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug
 
 ---
 
-**Tool options:**
+**Actors used:**
 
-| Tool | Type | Cost | Notes |
-|------|------|------|-------|
-| **Apify — LinkedIn Profile Scraper** | Cloud actor (REST API) | Free tier ~$5 credits | Used for Pass 1 — scrapes posts from specific expert profiles |
-| **Apify — LinkedIn Posts Search Scraper** | Cloud actor (REST API) | Same free tier (~200-500 posts) | Used for Pass 2 and 3 — keyword + name queries |
-| **Proxycurl API** | REST API | $0.01-0.10/request | Higher cost; backup option for profile data |
-| **SerpApi (Google dorking)** | REST API | Free tier 100 searches/mo | Queries `site:linkedin.com/posts` via Google — fallback only, misses recent posts |
-| **PhantomBuster** | Browser automation | Free trial | Requires LinkedIn login; higher ToS risk |
+| Actor | Apify ID | Used for | Notes |
+|-------|----------|----------|-------|
+| LinkedIn Profile Posts Scraper | `harvestapi/linkedin-profile-posts` | Pass 1 | No cookies required |
+| LinkedIn Post Search Scraper | `harvestapi/linkedin-post-search` | Pass 2 & 3 | No cookies required |
 
-**Setup**: Apify API key confirmed by user → stored in `.env` as `APIFY_API_KEY`, never committed
-
-**Stop after Pass 3 completes — await user review before any further action.**
+**Script**: `scripts/linkedin_scrape.py` — run with `--pass 1`, `--pass 2`, `--pass 3`, or `--pass all`
 
 ---
 
@@ -237,8 +266,8 @@ William-cursor-AI-portfolio/
 |------|---------|
 | Supadata API (primary) | Fetch YouTube transcripts via REST API; key in `.env` |
 | `youtube-transcript-api` (Python fallback) | Fallback if Supadata fails; no API key required |
-| Apify LinkedIn Posts Search Scraper | Keyword search across LinkedIn posts; key in `.env` |
-| Apify LinkedIn Profile Scraper | Scrape posts from each expert's LinkedIn profile; same key |
+| Apify `harvestapi/linkedin-profile-posts` | Scrape posts from expert LinkedIn profiles (LinkedIn Pass 1); key in `.env` |
+| Apify `harvestapi/linkedin-post-search` | Keyword + name search across LinkedIn posts (LinkedIn Pass 2 & 3); same key |
 | Deepgram API | Transcribe podcast audio if episode pages are audio-only; key in `.env` |
 | `requests` + `BeautifulSoup4` (Python) | Fetch and parse blog posts, podcast pages |
 | Python `venv` | Isolated environment, excluded from git |
@@ -254,8 +283,8 @@ William-cursor-AI-portfolio/
 ```bash
 python -m venv .venv
 .venv\Scripts\activate        # Windows
-pip install requests beautifulsoup4 python-dotenv
-# Copy .env.example to .env and fill in SUPADATA_API_KEY
+pip install requests beautifulsoup4 python-dotenv apify-client
+# Copy .env.example to .env and fill in SUPADATA_API_KEY, APIFY_API_KEY, DEEPGRAM_API_KEY
 ```
 
 ---
