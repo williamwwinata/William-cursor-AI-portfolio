@@ -93,11 +93,64 @@ These links point to podcast episode pages that may contain embedded audio with 
 
 ---
 
-#### LinkedIn Keyword Search — Plan
+#### LinkedIn Scraping — Plan
 
-**Goal**: Find publicly available LinkedIn posts from practitioners discussing webinar funnels. Not profile-specific — this is a broad keyword sweep to surface posts that may not have been caught in the expert discovery phase.
+**Goal**: Collect publicly available LinkedIn posts relevant to webinar funnels. Run in three passes in strict priority order — complete each pass fully before starting the next. Stop after all three passes for user review.
 
-**Search queries to run** (in priority order):
+---
+
+**Pass 1 — Expert profiles (highest priority)**
+
+Scrape posts directly from each approved expert's LinkedIn profile.
+
+Tool: **Apify — LinkedIn Profile Scraper**
+
+| Expert | LinkedIn URL |
+|--------|-------------|
+| Russell Brunson | `https://www.linkedin.com/in/russellbrunson/` |
+| Jason Fladlien | `https://www.linkedin.com/in/jasonfladlien/` |
+| Alex Hormozi | `https://www.linkedin.com/in/alexhormozi/` |
+| Mariah Coz | `https://www.linkedin.com/in/mariahcoz/` |
+| Melissa Kwan | `https://www.linkedin.com/in/melissakwan/` |
+| Pat Flynn | `https://www.linkedin.com/in/patflynn/` |
+| Dama Jue | `https://www.linkedin.com/in/damajue/` |
+| Omar Zenhom | `https://www.linkedin.com/in/omarzenhom/` |
+| Alex Cattoni | `https://www.linkedin.com/in/alexcattoni/` |
+| Jon Penberthy | `https://www.linkedin.com/in/jonpenberthy/` |
+
+Output location: `resources/LinkedIn-posts/[expert-slug]/[YYYY-MM-DD]-[post-slug].md`
+
+---
+
+**Pass 2 — Topic + expert name (second priority)**
+
+Search LinkedIn posts that mention a webinar topic AND at least one approved expert's name. This catches expert mentions, reposts, and commentary from others.
+
+Tool: **Apify — LinkedIn Posts Search Scraper**
+
+Queries (each expert name paired with core topics):
+1. `"Russell Brunson" webinar funnel`
+2. `"Jason Fladlien" webinar`
+3. `"Alex Hormozi" webinar`
+4. `"Mariah Coz" webinar`
+5. `"Melissa Kwan" webinar`
+6. `"Pat Flynn" webinar`
+7. `"Dama Jue" webinar`
+8. `"Omar Zenhom" webinar`
+9. `"Alex Cattoni" webinar`
+10. `"Jon Penberthy" webinar`
+
+Output location: `resources/LinkedIn-posts/search-results/[YYYY-MM-DD]-[query-slug].md`
+
+---
+
+**Pass 3 — Webinar topic keywords only (third priority)**
+
+Broad keyword sweep with no expert name constraint. Surfaces practitioners outside the approved list.
+
+Tool: **Apify — LinkedIn Posts Search Scraper**
+
+Queries (in priority order):
 1. `"webinar funnel"`
 2. `"webinar funnel from zero"`
 3. `"webinar registration page"`
@@ -107,25 +160,23 @@ These links point to podcast episode pages that may contain embedded audio with 
 7. `"evergreen webinar"`
 8. `"webinar conversion rate"`
 
+Output location: `resources/other/linkedin-topic-search/[YYYY-MM-DD]-[query-slug].md`
+
+---
+
 **Tool options:**
 
 | Tool | Type | Cost | Notes |
 |------|------|------|-------|
-| **Apify — LinkedIn Posts Search Scraper** | Cloud actor (REST API) | Free tier ~$5 credits (~200-500 posts) | Already in plan; input: keyword query; output: post text, author, date, likes, URL. Most reliable option. |
-| **Apify — LinkedIn Profile Scraper** | Cloud actor (REST API) | Same free tier | Scrapes posts from specific profiles — useful for the 10 experts' LinkedIn presence |
-| **Proxycurl API** | REST API | $0.01-0.10/request | Clean API, higher cost, better for profile data than post search |
-| **SerpApi (Google dorking)** | REST API | Free tier 100 searches/mo | Queries `site:linkedin.com/posts "webinar funnel"` via Google — gets indexed posts only, misses recent |
-| **PhantomBuster** | Browser automation | Free trial | Requires LinkedIn login; ToS risk higher than Apify |
-
-**Recommendation**: Use **Apify** for both passes:
-- Pass 1: LinkedIn Posts Search Scraper → keyword queries above → broad post discovery
-- Pass 2: LinkedIn Profile Scraper → the 10 experts' profiles → capture any expert LinkedIn posts missed in expert-specific collection
+| **Apify — LinkedIn Profile Scraper** | Cloud actor (REST API) | Free tier ~$5 credits | Used for Pass 1 — scrapes posts from specific expert profiles |
+| **Apify — LinkedIn Posts Search Scraper** | Cloud actor (REST API) | Same free tier (~200-500 posts) | Used for Pass 2 and 3 — keyword + name queries |
+| **Proxycurl API** | REST API | $0.01-0.10/request | Higher cost; backup option for profile data |
+| **SerpApi (Google dorking)** | REST API | Free tier 100 searches/mo | Queries `site:linkedin.com/posts` via Google — fallback only, misses recent posts |
+| **PhantomBuster** | Browser automation | Free trial | Requires LinkedIn login; higher ToS risk |
 
 **Setup**: Apify API key confirmed by user → stored in `.env` as `APIFY_API_KEY`, never committed
 
-**Output location**: `resources/LinkedIn-posts/search-results/[YYYY-MM-DD]-[query-slug].md`
-
-**Awaiting user command to begin.**
+**Stop after Pass 3 completes — await user review before any further action.**
 
 ---
 
